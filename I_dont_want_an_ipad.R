@@ -95,7 +95,7 @@
         Train$color <- NULL
         Train$UniqueID <- NULL
 
-#A simple logistic regression model for binary classification.To evaluate performance AIC was used.
+#Simple logistic regression model for binary classification.To evaluate performance AIC was used.
 
         model1 <- glm(sold ~ .-back -box -case -condit -cosmet -crack -devic -doe -functional -good -great -item -light 
                       -like -minor -new -pleas -scratch -screen -the -this -use -used -veri -wear -work
