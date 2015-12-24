@@ -61,18 +61,18 @@
 
         library(tm)
         library(SnowballC)
-        CorpusDescription = Corpus(VectorSource(Total$description))
-        CorpusDescription = tm_map(CorpusDescription, content_transformer(tolower), lazy=TRUE)
-        CorpusDescription = tm_map(CorpusDescription, PlainTextDocument, lazy=TRUE)
-        CorpusDescription = tm_map(CorpusDescription, removePunctuation, lazy=TRUE)
-        CorpusDescription = tm_map(CorpusDescription, removeWords, stopwords("english"), lazy=TRUE)
-        CorpusDescription = tm_map(CorpusDescription, stemDocument, lazy=TRUE)
-        dtm = DocumentTermMatrix(CorpusDescription)
-        sparse = removeSparseTerms(dtm, 0.98)
+        CorpusDescription <- Corpus(VectorSource(Total$description))
+        CorpusDescription <- tm_map(CorpusDescription, content_transformer(tolower), lazy=TRUE)
+        CorpusDescription <- tm_map(CorpusDescription, PlainTextDocument, lazy=TRUE)
+        CorpusDescription <- tm_map(CorpusDescription, removePunctuation, lazy=TRUE)
+        CorpusDescription <- tm_map(CorpusDescription, removeWords, stopwords("english"), lazy=TRUE)
+        CorpusDescription <- tm_map(CorpusDescription, stemDocument, lazy=TRUE)
+        dtm <- DocumentTermMatrix(CorpusDescription)
+        sparse <- removeSparseTerms(dtm, 0.98)
         
-        DescriptionWords = as.data.frame(as.matrix(sparse))
+        DescriptionWords <- as.data.frame(as.matrix(sparse))
         DescriptionWords$condition <- NULL #Repeated
-        colnames(DescriptionWords) = make.names(colnames(DescriptionWords))
+        colnames(DescriptionWords) <- make.names(colnames(DescriptionWords))
         Total <- cbind(Total,DescriptionWords)
 
 #Final traininig set/ test set
@@ -106,11 +106,11 @@
 #AUC
         library(ROCR)
         predictions <- predict(model1,type = "response")
-        ROCRpred = prediction(predictions, Train$sold)
+        ROCRpred <- prediction(predictions, Train$sold)
         as.numeric(performance(ROCRpred, "auc")@y.values)
 
 #Submission
 
         predictions1 <- predict(model1,Test,type ="response")
-        MySubmission = data.frame(UniqueID = test$UniqueID, Probability1 = predictions1)
+        MySubmission <- data.frame(UniqueID = test$UniqueID, Probability1 = predictions1)
         write.csv(MySubmission, "FinalSubmission.csv", row.names=FALSE)
